@@ -1,4 +1,5 @@
-FROM node:25-trixie AS build
+ARG NODE_VERSION=25
+FROM node:${NODE_VERSION}-trixie AS build
 
 # create a staging area for assets
 WORKDIR /opt/distroless-assets
