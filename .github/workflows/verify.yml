@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         platform: [linux/amd64, linux/arm64]
+        node-version: ["25"]
 
     steps:
       - uses: actions/checkout@v6
@@ -27,6 +28,8 @@ jobs:
           load: true
           platforms: ${{ matrix.platform }}
           tags: distroless-node:test
+          build-args: |
+             NODE_VERSION=${{ matrix.node-version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -34,8 +37,9 @@ jobs:
         run: |
           version=$(docker run --rm --platform ${{ matrix.platform }} distroless-node:test -v)
           echo "verified node version: $version"
-          if [[ "$version" != v25* ]]; then
-            echo "error: expected version v25*, got $version"
+          # Verify it matches the major version from matrix
+          if [[ "$version" != v${{ matrix.node-version }}* ]]; then
+            echo "error: expected version v${{ matrix.node-version }}*, got $version"
             exit 1
           fi
 
