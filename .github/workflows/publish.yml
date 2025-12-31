@@ -48,6 +48,10 @@ jobs:
             org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.licenses=MIT
+            index:org.opencontainers.image.title=distroless-node
+            index:org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
+            index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            index:org.opencontainers.image.licenses=MIT
           tags: |
             type=raw,value=${{ matrix.node-version }}
             type=raw,value=latest,enable=${{ matrix.node-version == '25' }}
