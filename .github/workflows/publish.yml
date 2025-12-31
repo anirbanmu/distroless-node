@@ -43,15 +43,6 @@ jobs:
             org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.licenses=MIT
-          annotations: |
-            org.opencontainers.image.title=distroless-node
-            org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
-            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-            org.opencontainers.image.licenses=MIT
-            index:org.opencontainers.image.title=distroless-node
-            index:org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
-            index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-            index:org.opencontainers.image.licenses=MIT
           tags: |
             type=raw,value=${{ matrix.node-version }}
             type=raw,value=latest,enable=${{ matrix.node-version == '25' }}
@@ -62,9 +53,8 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
           build-args: |
              NODE_VERSION=${{ matrix.node-version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          annotations: ${{ steps.meta.outputs.annotations }}
+          outputs: type=image,name=target,push=true,annotation-index.org.opencontainers.image.title=distroless-node,annotation-index.org.opencontainers.image.description="distroless images for node.js current (non-LTS) versions",annotation-index.org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }},annotation-index.org.opencontainers.image.licenses=MIT
