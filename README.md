@@ -1,5 +1,9 @@
 # distroless-node
 
+![Verify](https://github.com/anirbanmu/distroless-node/actions/workflows/verify.yml/badge.svg)
+![Publish](https://github.com/anirbanmu/distroless-node/actions/workflows/publish.yml/badge.svg)
+![License](https://img.shields.io/github/license/anirbanmu/distroless-node)
+
 distroless images for node.js current (non-LTS) versions, starting with node 25.
 based on `gcr.io/distroless/cc-debian13` (trixie).
 
