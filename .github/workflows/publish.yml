@@ -58,3 +58,4 @@ jobs:
              NODE_VERSION=${{ matrix.node-version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
