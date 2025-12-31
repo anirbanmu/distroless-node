@@ -38,6 +38,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title=distroless-node
+            org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.licenses=MIT
           tags: |
             type=raw,value=${{ matrix.node-version }}
             type=raw,value=latest,enable=${{ matrix.node-version == '25' }}
