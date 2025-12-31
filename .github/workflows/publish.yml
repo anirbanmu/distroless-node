@@ -57,4 +57,4 @@ jobs:
              NODE_VERSION=${{ matrix.node-version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=target,push=true,annotation-index.org.opencontainers.image.title=distroless-node,annotation-index.org.opencontainers.image.description="distroless images for node.js current (non-LTS) versions",annotation-index.org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }},annotation-index.org.opencontainers.image.licenses=MIT
+          outputs: type=image,name=target,push=true,annotation-index.org.opencontainers.image.title=distroless-node,"annotation-index.org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions",annotation-index.org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }},annotation-index.org.opencontainers.image.licenses=MIT
