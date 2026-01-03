@@ -3,6 +3,8 @@ name: publish to ghcr
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   schedule:
     - cron: '42 */6 * * *'
 
@@ -28,7 +30,19 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      - name: get upstream node version
+        id: node_version
+        run: |
+          docker pull node:${{ matrix.node-version }}-trixie
+          FULL_VERSION=$(docker run --rm node:${{ matrix.node-version }}-trixie node -v | cut -d 'v' -f 2)
+          echo "Full version: $FULL_VERSION"
+          MAJOR_MINOR=$(echo $FULL_VERSION | cut -d '.' -f 1,2)
+          echo "Major.Minor: $MAJOR_MINOR"
+          echo "full=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "minor=$MAJOR_MINOR" >> $GITHUB_OUTPUT
+
       - name: login to ghcr
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -47,6 +61,8 @@ jobs:
             org.opencontainers.image.licenses=MIT
           tags: |
             type=raw,value=${{ matrix.node-version }}
+            type=raw,value=${{ steps.node_version.outputs.full }}
+            type=raw,value=${{ steps.node_version.outputs.minor }}
             type=raw,value=latest,enable=${{ matrix.node-version == '25' }}
             type=sha,priority=100
 
@@ -59,4 +75,4 @@ jobs:
              NODE_VERSION=${{ matrix.node-version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=target,push=true,annotation-index.org.opencontainers.image.title=distroless-node,"annotation-index.org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions",annotation-index.org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }},annotation-index.org.opencontainers.image.licenses=MIT
+          outputs: type=image,name=target,push=${{ github.event_name != 'pull_request' }},annotation-index.org.opencontainers.image.title=distroless-node,"annotation-index.org.opencontainers.image.description=distroless images for node.js current (non-LTS) versions",annotation-index.org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }},annotation-index.org.opencontainers.image.licenses=MIT
