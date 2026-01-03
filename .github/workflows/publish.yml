@@ -3,6 +3,8 @@ name: publish to ghcr
 on:
   push:
     branches: ["main"]
+  schedule:
+    - cron: '42 */6 * * *'
 
 env:
   REGISTRY: ghcr.io
